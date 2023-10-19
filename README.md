@@ -4,9 +4,13 @@
 + data/davis/folds/test_fold_setting1.txt,train_fold_setting1.txt; data/davis/Y,ligands_can.txt,proteins.txt
   data/kiba/folds/test_fold_setting1.txt,train_fold_setting1.txt; data/kiba/Y,ligands_can.txt,proteins.txt
   These file were downloaded from https://github.com/hkmztrk/DeepDTA/tree/master/data
+-------
+We don't use this files. Just simply make csv file from YOUR DATASET.
+
 
 ###  Source codes:
-+ create_data.py: create data in pytorch format
++ create_data.py: create data in pytorch format (old version, you don't need to run this code)
++ processing_data.py : create data in pytorch fromat with csv (new version, this will give you model input files)
 + utils.py: include TestbedDataset used by create_data.py to create data, and performance measures.
 + training.py: train a GraphDTA model.
 + models/ginconv.py, gat.py, gat_gcn.py, and gcn.py: proposed models GINConvNet, GATNet, GAT_GCN, and GCNNet receiving graphs as input for drugs.
@@ -14,21 +18,20 @@
 # Step-by-step running:
 
 ## 0. Install Python libraries needed
-+ Install pytorch_geometric following instruction at https://github.com/rusty1s/pytorch_geometric
-+ Install rdkit: conda install -y -c conda-forge rdkit
-+ Or run the following commands to install both pytorch_geometric and rdkit:
 ```
-conda create -n geometric python=3
-conda activate geometric
-conda install -y -c conda-forge rdkit
-conda install pytorch torchvision cudatoolkit -c pytorch
-pip install torch-scatter==latest+cu101 -f https://pytorch-geometric.com/whl/torch-1.4.0.html
-pip install torch-sparse==latest+cu101 -f https://pytorch-geometric.com/whl/torch-1.4.0.html
-pip install torch-cluster==latest+cu101 -f https://pytorch-geometric.com/whl/torch-1.4.0.html
-pip install torch-spline-conv==latest+cu101 -f https://pytorch-geometric.com/whl/torch-1.4.0.html
-pip install torch-geometric
+1. conda create -n graphDTA python==3.9.12
+2. conda activate graphDTA
+3. pip install torch==1.12.1+cu113 torchvision==0.13.1+cu113 torchaudio==0.12.1 --extra-index-url https://download.pytorch.org/whl/cu113
+4. pip install rdkit-pypi==2021.3.5.1
+5. pip install torch_geometric
+6. pip install pandas==1.5.3
+7. pip install networkx==2.8.8
+```
+You should check your CUDA driver version.
+Mine is CUDA==11.4 so this worked for me, but if your version is different, fix the code number 3.
 
-```
+<UPDATEING...>
+
 
 ## 1. Create data in pytorch format
 Running
