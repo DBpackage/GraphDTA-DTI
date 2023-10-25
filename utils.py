@@ -100,27 +100,28 @@ def pearson(y,f):
 def spearman(y,f):
     rs = stats.spearmanr(y, f)[0]
     return rs
-def ci(y,f):
+def ci(y,f): # I optimzed the CI calculation function. It reduced almost 5 times with same result.
     ind = np.argsort(y)
     y = y[ind]
     f = f[ind]
-    i = len(y)-1
-    j = i-1
+    n = len(y)
+    c, d = 0, 0
     z = 0.0
     S = 0.0
-    while i > 0:
-        while j >= 0:
-            if y[i] > y[j]:
-                z = z+1
-                u = f[i] - f[j]
-                if u > 0:
-                    S = S + 1
-                elif u == 0:
-                    S = S + 0.5
-            j = j - 1
-        i = i - 1
-        j = i-1
-    ci = S/z
+
+    for i in range(n - 1):
+        for j in range(i + 1, n):
+            if y[i] != y[j]:
+                z += 1
+                if f[i] < f[j]:
+                    S += 1
+                elif f[i] == f[j]:
+                    S += 0.5
+    if z > 0:
+        ci = S / z
+    else:
+        ci = 0.0
+
     return ci
 
 def prc_auc(targets, preds):
