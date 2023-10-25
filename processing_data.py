@@ -77,7 +77,7 @@ for dataset in datasets:
     if ((not os.path.isfile(processed_data_file_train)) or (not os.path.isfile(processed_data_file_test))):
         df = pd.read_csv('data/' + dataset + '_train.csv')
         train_drugs, train_prots, train_Y, train_Y_c = list(df['smiles']),list(df['sequence']),list(df['pka']), list(df['label'])
-        #print("train_Y_c", train_Y_c[:100])
+        
         XT = [seq_cat(t) for t in train_prots]
         train_drugs, train_prots,  train_Y, train_Y_c = np.asarray(train_drugs), np.asarray(XT), np.asarray(train_Y), np.asarray(train_Y_c)
         df = pd.read_csv('data/' + dataset + '_test.csv')
