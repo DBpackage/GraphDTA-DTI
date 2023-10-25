@@ -30,10 +30,26 @@ We don't use this files. Just simply make csv file from YOUR DATASET.
 You should check your CUDA driver version.
 Mine is CUDA==11.4 so this worked for me, but if your version is different, fix the code number 3.
 
-<UPDATEING...>
+
+## 1. Create csv data first
+The old version of graphDTA used create_data.py for making input csv file along with Dataset of DeepDTA. (https://github.com/thinng/GraphDTA/issues/8#issuecomment-759070065)
+But it's too hassle to use this code for now. We want to use graphDTA with our own datasets not the DeepDTA datasets.
+So, skip this create_data.py.
+
+Rather, we use processing_data.py which I made new. This code is without making triple formated csv file with DeepDTA datasets.
+For running this code, you have to make the CSV file with this format.
 
 
-## 1. Create data in pytorch format
+| smiles  | sequence | pka | label |
+| ------------- | ------------- |------------- |------------- |
+| COc1cc(CCCOC(=O)  | MDVLSPGQGNNTTS  |10.34969248 | 1 |
+| OC(=O)C=C | MSWATRPPF  |5.568636236 | 0
+
+Where smiles is compound sequences, sequence is protein AA sequences, pka is affinity values, and label is binary column for binary classification.
+It's trivial to add label column with pka values. You should check your dataset and set proper threshold value for making label column.
+In my case, I used BindingDB dataset from DeepAffinity and the pka was given with Ki value. I set the threshold value as 6.
+
+
 Running
 ```sh
 conda activate geometric
