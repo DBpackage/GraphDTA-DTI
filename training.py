@@ -75,15 +75,13 @@ def predicting(model, device, loader, mode):
             for data in tqdm(loader):
                 data = data.to(device)
                 output = model(data)
-                output = nn.Sigmoid()(output)
+                # output = nn.Sigmoid()(output)
                 total_preds = torch.cat((total_preds, output.cpu()), 0)
                 total_labels = torch.cat((total_labels, data.y_c.view(-1, 1).cpu()), 0)
 
-            total_preds = total_preds.flatten()
-            #total_preds = np.asarray([1 if i else 0 for i in (np.asarray(total_preds) >= 0.5)])
+            total_preds = nn.Sigmoid()(total_preds)
                 
-        return total_labels.numpy().flatten(), total_preds.flatten()
-
+        return total_labels.numpy().flatten(), total_preds.numpy().flatten()
 
 datasets = [['davis','kiba','bindingdb'][int(sys.argv[1])]] #
 modeling = [GINConvNet, GATNet, GAT_GCN, GCNNet][int(sys.argv[2])]
@@ -134,14 +132,14 @@ for dataset in datasets:
             result_file_name = 'regression_result_' + model_st + '_' + dataset +  '.csv'
             for epoch in range(NUM_EPOCHS):
                 train(model, device, train_loader, optimizer, epoch+1, mode=mode)
+                
                 G,P = predicting(model, device, test_loader, mode=mode) # Ground Truth, Predicted Float Value
-                print("A")
-                ret = [rmse(G,P),mse(G,P),pearson(G,P),spearman(G,P),ci(G,P)]; print("B")
+                ret = [rmse(G,P),mse(G,P),pearson(G,P),spearman(G,P),ci(G,P)]; 
+                
                 if ret[1]<best_mse:
-                    torch.save(model.state_dict(), model_file_name); print("C")
+                    torch.save(model.state_dict(), model_file_name); 
                     with open(result_file_name,'w') as f:
                         f.write(','.join(map(str,ret)))
-                    print("D")
                     best_epoch = epoch+1
                     best_mse = ret[1]
                     best_ci = ret[-1]
