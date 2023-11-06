@@ -1,4 +1,5 @@
 23.11.05 Fixed Code Error with making testset in processing_data.py
+23.11.07 Add processing_data_valid.py and fixed training_validation.py for adding validation dataset during training.
 
 # Resources:
 
@@ -60,7 +61,10 @@ In my case, I used BindingDB dataset from DeepAffinity and the pka was given wit
 Make these two csv files '{bindingdb}_train.csv' and '{bindingdb}_test.csv'.
 
 Note that, {bindingdb} can be change along with your own dataset, but you should fix the 61 and 72 lines into your own dataset.
-Move those two csv files under GraphDTA/data/
+Move those twocsv files under GraphDTA/data/
+
+Note that, If you want to add Valid dataset, then read 3. Train a prediction model with validation dataset section below
+
 
 Then simply run 
 ```
@@ -69,7 +73,6 @@ python processing_data.py
 ```
 
 This will give you input dataset(.pt format) for running model.
-
 
 ### 2. Train a prediction model
 To train a model using training data. The model is chosen if it gains the best MSE/AUC for testing data.
@@ -97,22 +100,23 @@ This returns the model and result files for the modelling achieving the best MSE
 For example, it returns two files regression_model_GATNet_davis.model and regression_result_GATNet_davis.csv when running regression model with GATNet on Davis data.
 And if you do it with classification model, it returns two files classification_model_GATNet_davis.model and classification_result_GATNet_davis.csv.
 
-## 3. Train a prediction model with validation 
+### 3. Train a prediction model with validation dataset
+In "3. Train a prediction model", a model is trained on training data and chosen when it gains the best MSE for valid data.
 
-! I skipped this step, My code only work with train/test splitted dataset.
-If you want to do train/valid/test, you should change the training_validation.py file.
+As I mentioned above, simply make three csv files('{bindingdb}_train.csv', '{bindingdb}_valid.csv and '{bindingdb}_test.csv'.) with same format.
 
-In "3. Train a prediction model", a model is trained on training data and chosen when it gains the best MSE for testing data.
-This follows how a model was chosen in https://github.com/hkmztrk/DeepDTA. The result by two ways of training is comparable though.
+Then simply run 
+```
+cd YOUR/PATH/TO/graphDTA
+python processing_data_valid.py
+```
+This will retrun train/valid/test.pt as input dataset for model training.
 
-In this section, a model is trained on 80% of training data and chosen if it gains the best MSE for validation data, 
-which is 20% of training data. Then the model is used to predict affinity for testing data.
-
-Same arguments as in "3. Train a prediction model" are used. E.g., running 
+### 4. Train a prediction model with validation
+Using same arguments. The arguments are explained above.
 
 ```sh
-python training_validation.py 0 0 0
+python training_validation.py 0 0 0 0
 ```
 
 This returns the model achieving the best MSE for validation data throughout the training and performance results of the model on testing data.
-For example, it returns two files model_GATNet_davis.model and result_GATNet_davis.csv when running GATNet on Davis data.
