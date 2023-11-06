@@ -75,22 +75,25 @@ for dataset in datasets:
     processed_data_file_train = 'data/processed/' + dataset + '_train.pt'
     processed_data_file_test = 'data/processed/' + dataset + '_test.pt'
     if ((not os.path.isfile(processed_data_file_train)) or (not os.path.isfile(processed_data_file_test))):
+        # train
         df = pd.read_csv('data/' + dataset + '_train.csv')
         train_drugs, train_prots, train_Y, train_Y_c = list(df['smiles']),list(df['sequence']),list(df['pka']), list(df['label'])
-        
         XT = [seq_cat(t) for t in train_prots]
         train_drugs, train_prots,  train_Y, train_Y_c = np.asarray(train_drugs), np.asarray(XT), np.asarray(train_Y), np.asarray(train_Y_c)
+
+        # test
         df = pd.read_csv('data/' + dataset + '_test.csv')
         test_drugs, test_prots,  test_Y, test_Y_c = list(df['smiles']),list(df['sequence']),list(df['pka']), list(df['label'])
         XT = [seq_cat(t) for t in test_prots]
-        test_drugs, test_prots,  test_Y, test_Y_c = np.asarray(test_drugs), np.asarray(XT), np.asarray(test_Y), np.asarray(train_Y_c)
+        test_drugs, test_prots,  test_Y, test_Y_c = np.asarray(test_drugs), np.asarray(XT), np.asarray(test_Y), np.asarray(test_Y_c)
 
         # make data PyTorch Geometric ready
         print('preparing ', dataset + '_train.pt in pytorch format!')
         train_data = TestbedDataset(root='data', dataset=dataset+'_train', xd=train_drugs, xt=train_prots, y=train_Y, y_c=train_Y_c, smile_graph=smile_graph)
+        
         print('preparing ', dataset + '_test.pt in pytorch format!')
         test_data = TestbedDataset(root='data', dataset=dataset+'_test', xd=test_drugs, xt=test_prots, y=test_Y, y_c=test_Y_c, smile_graph=smile_graph)
+        
         print(processed_data_file_train, ' and ', processed_data_file_test, ' have been created')
     else:
         print(processed_data_file_train, ' and ', processed_data_file_test, ' are already created')
-
