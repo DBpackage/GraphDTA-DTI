@@ -1,6 +1,8 @@
-23.11.05 Fixed Code Error with making testset in processing_data.py
+23.11.05 Bug Fixed with making testset in processing_data.py
 
-23.11.07 Add processing_data_valid.py and fixed training_validation.py for adding validation dataset during training.
+23.11.07 Update README about validation. Plan to upload some codes for training with valid/test.
+
+23.11. (Not available now) Add processing_data_valid.py and fixed training_validation.py for adding validation dataset during training.
 
 # Resources:
 
@@ -104,7 +106,8 @@ And if you do it with classification model, it returns two files classification_
 ### 3. Train a prediction model with validation dataset
 In "3. Train a prediction model", a model is trained on training data and chosen when it gains the best MSE for valid data.
 
-As I mentioned above, simply make three csv files('{bindingdb}_train.csv', '{bindingdb}_valid.csv and '{bindingdb}_test.csv'.) with same format.
+As I mentioned above, simply make three csv files('{bindingdb}_train.csv', '{bindingdb}_valid.csv and '{bindingdb}_test.csv'.) with same format 
+and move those three csv files under GraphDTA/data/
 
 Then simply run 
 ```
