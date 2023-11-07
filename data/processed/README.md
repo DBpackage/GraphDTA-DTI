@@ -1,1 +1,1 @@
-pre-processed .pt files will saved under this directory
+pre-processed .pt files will be saved under this directory
