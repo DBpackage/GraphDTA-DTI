@@ -106,6 +106,7 @@ And if you do it with classification model, it returns two files classification_
 
 ### 3. Train a prediction model with validation dataset
 ! My method is slightly different from original GraphDTA.
+
 ! They split train/test data into train/valid/test during running training, but our method explicitly needs train/valid/test.pt for running.
 
 In "3. Train a prediction model", a model is trained on training data and chosen when it gains the best MSE for valid data.
@@ -122,8 +123,8 @@ This will retrun train/valid/test.pt as input dataset for training.
 
 ### 4. Train a prediction model with validation
 Using same arguments. The arguments are explained above.
-! updated the first argument 0 / 1 for 'toy_bindingdb' and 'bindingdb', respectively.
-others are same.
+
+! updated the first argument 0 / 1 for 'toy_bindingdb' and 'bindingdb', respectively. others are same.
 
 ```sh
 python training_validation.py 0 0 0 0
