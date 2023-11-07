@@ -2,7 +2,7 @@
 
 23.11.07 Update README about validation. Plan to upload some codes for training with valid/test.
 
-23.11. (Not available now) Add processing_data_valid.py and fixed training_validation.py for adding validation dataset during training.
+23.11.08 Adding processing_data_valid.py and update training_validation.py for training with validation.
 
 # Resources:
 
@@ -63,11 +63,12 @@ In my case, I used BindingDB dataset from DeepAffinity and the pka was given wit
 
 Make these two csv files '{bindingdb}_train.csv' and '{bindingdb}_test.csv'.
 
-Note that, {bindingdb} can be change along with your own dataset, but you should fix the 61 and 72 lines into your own dataset.
-Move those twocsv files under GraphDTA/data/
+Note that, {bindingdb} can be changed along your own dataset, but you should fix the 61 (for dt_name in ['davis', 'kiba', 'bindingdb']:)
+and 72 (datasets = ['davis','kiba','bindingdb']) lines into your own dataset.
+Move those two csv files under GraphDTA/data/
 
-Note that, If you want to add Valid dataset, then read 3. Train a prediction model with validation dataset section below
-
+If you want to add Valid dataset, then read 3. Train a prediction model with validation dataset section below.
+And I highly recommend it.
 
 Then simply run 
 ```
@@ -75,7 +76,7 @@ cd YOUR/PATH/TO/graphDTA
 python processing_data.py
 ```
 
-This will give you input dataset(.pt format) for running model.
+This will give you tarin/test.pt files for running/training your model.
 
 ### 2. Train a prediction model
 To train a model using training data. The model is chosen if it gains the best MSE/AUC for testing data.
@@ -97,13 +98,16 @@ cuda_name = "cuda:0"
 if len(sys.argv)>3:
     cuda_name = "cuda:" + str(int(sys.argv[3])) 
 ```
- The last argument is for the model mode 0/1 for classification and regression, respectively;
+ The last argument is for the model mode 0 / 1 for 'classification' and 'regression', respectively;
 
 This returns the model and result files for the modelling achieving the best MSE/AUC for testing data throughout the training.
 For example, it returns two files regression_model_GATNet_davis.model and regression_result_GATNet_davis.csv when running regression model with GATNet on Davis data.
 And if you do it with classification model, it returns two files classification_model_GATNet_davis.model and classification_result_GATNet_davis.csv.
 
 ### 3. Train a prediction model with validation dataset
+! My method is slightly different from original GraphDTA.
+! They split train/test data into train/valid/test during running training, but our method explicitly needs train/valid/test.pt for running.
+
 In "3. Train a prediction model", a model is trained on training data and chosen when it gains the best MSE for valid data.
 
 As I mentioned above, simply make three csv files('{bindingdb}_train.csv', '{bindingdb}_valid.csv and '{bindingdb}_test.csv'.) with same format 
@@ -114,13 +118,17 @@ Then simply run
 cd YOUR/PATH/TO/graphDTA
 python processing_data_valid.py
 ```
-This will retrun train/valid/test.pt as input dataset for model training.
+This will retrun train/valid/test.pt as input dataset for training.
 
 ### 4. Train a prediction model with validation
 Using same arguments. The arguments are explained above.
+! updated the first argument 0 / 1 for 'toy_bindingdb' and 'bindingdb', respectively.
+others are same.
 
 ```sh
 python training_validation.py 0 0 0 0
 ```
 
 This returns the model achieving the best MSE for validation data throughout the training and performance results of the model on testing data.
+Note that our method is different from original graphDTA, you can't use davis/kiba dataset if you want to do train with validation since there are no davis/kiba_valid.pt.
+I attached toy_bindingdb train/valid/test dataset.
