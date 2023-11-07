@@ -7,11 +7,7 @@
 # Resources:
 
 + README.md: this file.
-+ data/davis/folds/test_fold_setting1.txt,train_fold_setting1.txt; data/davis/Y,ligands_can.txt,proteins.txt
-  data/kiba/folds/test_fold_setting1.txt,train_fold_setting1.txt; data/kiba/Y,ligands_can.txt,proteins.txt
-  These file were downloaded from https://github.com/hkmztrk/DeepDTA/tree/master/data
-
-+ (Needs update)
++ 
 
 ---------
 
@@ -22,7 +18,7 @@
 + utils.py: include TestbedDataset used by create_data.py to create data, and performance measures.
 + training.py: train a GraphDTA model.
 + models/ginconv.py, gat.py, gat_gcn.py, and gcn.py: proposed models GINConvNet, GATNet, GAT_GCN, and GCNNet receiving graphs as input for drugs.
-
++ (Needs update)
 ## Step-by-step running
 
 
