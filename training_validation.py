@@ -8,7 +8,6 @@ from models.gat import GATNet
 from models.gat_gcn import GAT_GCN
 from models.gcn import GCNNet
 from models.ginconv import GINConvNet
-from models.gcn_test import GCNNet_TEST
 from utils import *
 from sklearn.metrics import roc_auc_score
 from tqdm import tqdm
@@ -84,9 +83,9 @@ def predicting(model, device, loader, mode):
                 
         return total_labels.numpy().flatten(), total_preds.numpy().flatten()
 
-
-datasets = [['toy_bindingdb', 'bindingdb'][int(sys.argv[1])]] #
-modeling = [GINConvNet, GATNet, GAT_GCN, GCNNet, GCNNet_TEST][int(sys.argv[2])]
+# datasets = [['toy_bindingdb', 'bindingdb'][int(sys.argv[1])]]
+datasets = [['toy_bindingdb'][int(sys.argv[1])]] 
+modeling = [GINConvNet, GATNet, GAT_GCN, GCNNet][int(sys.argv[2])]
 model_st = modeling.__name__
 
 cuda_name = "cuda:0"
