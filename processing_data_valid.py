@@ -58,7 +58,8 @@ seq_dict_len = len(seq_dict)
 max_seq_len = 1000
 
 compound_iso_smiles = []
-for dt_name in ['bindingdb', 'toy_bindingdb']:
+# for dt_name in ['bindingdb', 'toy_bindingdb']: # If you add your own data, fix 62 and 74 lines like this.
+for dt_name in ['toy_bindingdb']:
     opts = ['train', 'valid', 'test']
     for opt in opts:
         df = pd.read_csv('data/' + dt_name + '_' + opt + '.csv')
@@ -70,7 +71,9 @@ for smile in compound_iso_smiles:
     g = smile_to_graph(smile)
     smile_graph[smile] = g
 
-datasets = ['bindingdb', 'toy_bindingdb']
+# datasets = ['bindingdb', 'toy_bindingdb']
+datasets = ['toy_bindingdb']
+
 # convert to PyTorch data format
 for dataset in datasets:
     processed_data_file_train = 'data/processed/' + dataset + '_train.pt'
